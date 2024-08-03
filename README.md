@@ -48,5 +48,4 @@ This app requires the following permissions:
 - [GitHub](https://github.com/S-Bharath16)
 - [LinkedIn](https://www.linkedin.com/in/bharathssss/)
 - [Instagram](https://www.instagram.com/bharath_.16._/)
-- 
 Feel free to customize this template further to suit your project's specific needs.
