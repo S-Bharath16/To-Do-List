@@ -44,7 +44,7 @@ This app requires the following permissions:
 ## Developed by
 
 **S Bharath**
-- Mail - Bharathshan@outlook.com
+- Bharathshan@outlook.com
 - [GitHub](https://github.com/S-Bharath16)
 - [LinkedIn](https://www.linkedin.com/in/bharathssss/)
 - [Instagram](https://www.instagram.com/bharath_.16._/)
