@@ -1,22 +1,38 @@
-class ToDo {
-  String? id;
-  String? todoText;
+import 'package:equatable/equatable.dart';
+
+class ToDo extends Equatable {
+  final String id;
+  final String? todoText;
   bool isDone;
+  DateTime? deadline;
 
   ToDo({
     required this.id,
     required this.todoText,
     this.isDone = false,
+    this.deadline,
   });
 
-  static List<ToDo> todoList() {
-    return [
-      ToDo(id: '01', todoText: 'Morning Excercise', isDone: true ),
-      ToDo(id: '02', todoText: 'Buy Groceries', isDone: true ),
-      ToDo(id: '03', todoText: 'Check Emails', ),
-      ToDo(id: '04', todoText: 'Team Meeting', ),
-      ToDo(id: '05', todoText: 'Work on mobile apps for 2 hour', ),
-      ToDo(id: '06', todoText: 'Dinner with Jenny', ),
-    ];
+  Map<String, dynamic> toMap() {
+    return {
+      'id': id,
+      'todoText': todoText,
+      'isDone': isDone,
+      'deadline': deadline?.toIso8601String(),
+    };
   }
+
+  factory ToDo.fromMap(Map<String, dynamic> map) {
+    return ToDo(
+      id: map['id'],
+      todoText: map['todoText'],
+      isDone: map['isDone'],
+      deadline: map['deadline'] != null
+          ? DateTime.parse(map['deadline'])
+          : null,
+    );
+  }
+
+  @override
+  List<Object?> get props => [id, todoText, isDone, deadline];
 }

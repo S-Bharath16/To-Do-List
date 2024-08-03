@@ -1,65 +1,45 @@
 import 'package:flutter/material.dart';
-
 import '../model/todo.dart';
 import '../constants/colors.dart';
 
 class ToDoItem extends StatelessWidget {
   final ToDo todo;
-  final onToDoChanged;
-  final onDeleteItem;
+  final Function(ToDo) onToDoChanged;
+  final Function(String) onDeleteItem;
 
-  const ToDoItem({
-    Key? key,
+  ToDoItem({
     required this.todo,
     required this.onToDoChanged,
     required this.onDeleteItem,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.only(bottom: 20),
-      child: ListTile(
-        onTap: () {
-          // print('Clicked on Todo Item.');
+    return ListTile(
+      contentPadding: EdgeInsets.symmetric(vertical: 10, horizontal: 15),
+      leading: Checkbox(
+        value: todo.isDone,
+        onChanged: (value) {
           onToDoChanged(todo);
         },
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(20),
+      ),
+      title: Text(
+        todo.todoText ?? '',
+        style: TextStyle(
+          decoration: todo.isDone ? TextDecoration.lineThrough : null,
         ),
-        contentPadding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-        tileColor: Colors.white,
-        leading: Icon(
-          todo.isDone ? Icons.check_box : Icons.check_box_outline_blank,
-          color: tdBlue,
-        ),
-        title: Text(
-          todo.todoText!,
-          style: TextStyle(
-            fontSize: 16,
-            color: tdBlack,
-            decoration: todo.isDone ? TextDecoration.lineThrough : null,
-          ),
-        ),
-        trailing: Container(
-          padding: EdgeInsets.all(0),
-          margin: EdgeInsets.symmetric(vertical: 12),
-          height: 35,
-          width: 35,
-          decoration: BoxDecoration(
-            color: tdRed,
-            borderRadius: BorderRadius.circular(5),
-          ),
-          child: IconButton(
-            color: Colors.white,
-            iconSize: 18,
-            icon: Icon(Icons.delete),
-            onPressed: () {
-              // print('Clicked on delete icon');
-              onDeleteItem(todo.id);
-            },
-          ),
-        ),
+      ),
+      subtitle: todo.deadline != null
+          ? Text(
+        'Deadline: ${todo.deadline!.toLocal().toString().split(' ')[0]}',
+        style: TextStyle(color: Colors.grey),
+      )
+          : null,
+      trailing: IconButton(
+        icon: Icon(Icons.delete),
+        onPressed: () {
+          onDeleteItem(todo.id);
+        },
       ),
     );
   }
