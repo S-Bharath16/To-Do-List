@@ -8,8 +8,9 @@ class AboutPage extends StatelessWidget {
   final String _instagramUrl = 'https://www.instagram.com/bharath_.16._/';
 
   Future<void> _launchUrl(String url) async {
-    if (await canLaunch(url)) {
-      await launch(url);
+    final Uri uri = Uri.parse(url);
+    if (await canLaunchUrl(uri)) {
+      await launchUrl(uri, mode: LaunchMode.externalApplication);
     } else {
       throw 'Could not launch $url';
     }
@@ -44,23 +45,11 @@ class AboutPage extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                IconButton(
-                  icon: Image.asset('assets/icons/github.png'),
-                  iconSize: 40,
-                  onPressed: () => _launchUrl(_githubUrl),
-                ),
+                _buildIconButton('assets/icons/github.png', _githubUrl),
                 SizedBox(width: 20),
-                IconButton(
-                  icon: Image.asset('assets/icons/linkedin.png'),
-                  iconSize: 40,
-                  onPressed: () => _launchUrl(_linkedinUrl),
-                ),
+                _buildIconButton('assets/icons/linkedin.png', _linkedinUrl),
                 SizedBox(width: 20),
-                IconButton(
-                  icon: Image.asset('assets/icons/instagram.png'),
-                  iconSize: 40,
-                  onPressed: () => _launchUrl(_instagramUrl),
-                ),
+                _buildIconButton('assets/icons/instagram.png', _instagramUrl),
               ],
             ),
             Spacer(),
@@ -81,6 +70,27 @@ class AboutPage extends StatelessWidget {
             ),
             SizedBox(height: 20),
           ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildIconButton(String assetPath, String url) {
+    return GestureDetector(
+      onTap: () => _launchUrl(url),
+      child: Container(
+        padding: EdgeInsets.all(8),
+        decoration: BoxDecoration(
+          shape: BoxShape.circle,
+          border: Border.all(
+            color: Colors.grey,
+            width: 1.0,
+          ),
+        ),
+        child: Image.asset(
+          assetPath,
+          width: 40,
+          height: 40,
         ),
       ),
     );

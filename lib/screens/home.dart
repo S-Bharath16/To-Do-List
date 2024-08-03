@@ -4,7 +4,7 @@ import '../model/todo.dart';
 import '../constants/colors.dart';
 import '../widgets/todo_item.dart';
 import 'dart:convert';
-import 'package:flutter_todo_app/screens/about_page.dart';
+import 'about_page.dart'; // Ensure this import statement is correct
 
 class Home extends StatefulWidget {
   Home({Key? key}) : super(key: key);
@@ -30,8 +30,7 @@ class _HomeState extends State<Home> {
     final String? todosString = prefs.getString('todos');
     if (todosString != null) {
       final List<Map<String, dynamic>> todosMapList =
-      List<Map<String, dynamic>>.from(
-          jsonDecode(todosString) as List<dynamic>);
+      List<Map<String, dynamic>>.from(jsonDecode(todosString) as List<dynamic>);
       setState(() {
         todosList.addAll(todosMapList.map((map) => ToDo.fromMap(map)).toList());
         _foundToDo = todosList;
@@ -81,9 +80,7 @@ class _HomeState extends State<Home> {
       results = todosList;
     } else {
       results = todosList
-          .where((item) => item.todoText!
-          .toLowerCase()
-          .contains(enteredKeyword.toLowerCase()))
+          .where((item) => item.todoText!.toLowerCase().contains(enteredKeyword.toLowerCase()))
           .toList();
     }
 
@@ -110,7 +107,7 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: tdBGColor,
-      appBar: _buildAppBar(),
+      appBar: _buildAppBar(context),
       body: Stack(
         children: [
           Container(
@@ -172,7 +169,7 @@ class _HomeState extends State<Home> {
                           ),
                         ),
                       ),
-                      for (ToDo todo in _foundToDo.reversed)
+                      for (ToDo todo in _foundToDo)
                         ToDoItem(
                           todo: todo,
                           onToDoChanged: _handleToDoChange,
@@ -204,7 +201,7 @@ class _HomeState extends State<Home> {
     _saveToDos(); // Save changes
   }
 
-  AppBar _buildAppBar() {
+  AppBar _buildAppBar(BuildContext context) {
     return AppBar(
       backgroundColor: tdBGColor,
       elevation: 0,
